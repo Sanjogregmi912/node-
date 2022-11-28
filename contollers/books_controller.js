@@ -56,7 +56,14 @@ const deletebook = (req,res) =>{
 }
 
 const putonebook = (req,res) =>{
-    res.status(200).json({"Reply": "Book updated  successfully"})
+  let updatedbooks = books.map((item)=>{
+    if(item.id == req.params.id){
+        item.title = req.body.title
+        item.author = req.body.author
+    }
+    return item
+   })
+   res.json(updatedbooks)
 
 }
 
