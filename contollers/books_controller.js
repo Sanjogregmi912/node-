@@ -51,7 +51,12 @@ const postonebook  = (req,res)=>{
     
 }
 const deletebook = (req,res) =>{
-    res.status(200).json({"Reply": "Book Deleted successfully"})
+    let newlist = books.filter(function (items){
+        return items.id != req.params.id
+    })
+    res.json(newlist)
+
+
 
 }
 
