@@ -55,7 +55,10 @@ const mongoose =  require("mongoose")
 mongoose.connect('mongodb://127.0.0.1:27017/books')
 .then(()=>{
     console.log("connected to mongodb server")})
-.catch((err)=>{console.error(err)})
+.catch((err)=>next(err))
+
+
+
 app.use((req,res,next)=>{
 
     next()
@@ -73,4 +76,9 @@ app.use('/books',book_routes)
 
 app.listen(port,()=>{
     console.log(`App is running on port : ${port}`)
+})
+
+app.use((err,req,res,next)=>{
+console.log(err)
+res.status(500).json({"err":err.message})
 })

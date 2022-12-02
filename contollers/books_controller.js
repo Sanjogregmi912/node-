@@ -1,17 +1,17 @@
 // const books = require('../data/books')
 const Book =  require('../models/Book')
 
-const getAllBooks = (req,res)=>{
+const getAllBooks = (req,res,next)=>{
     Book.find().then((books)=>{
         res.json(books)
     }).catch(
         (err) =>{
-            console.log(err)
+            next(err)
         }
     )
 }
 
-const postnewbooks = (req,res)=>{
+const postnewbooks = (req,res,next)=>{
 //     let new_book = {
 //         'id' : books[books.length-1].id + 1,
 //         'title' : req.body.title,
@@ -21,12 +21,17 @@ const postnewbooks = (req,res)=>{
 //     books.push(new_book)
 //     res.status(201).send(books)
 // }
+let abook = {
+    "title" : req.body.title,
+    "author" : req.body.author
+}
 
-Book.create(req.body).then((book)=>{
+
+Book.create(abook).then((book)=>{
     res.status(201).json(book)
 })
 .catch((err)=>{
-    console.log(err)
+    next(err)
 }
 )
 }
@@ -36,13 +41,25 @@ const putbook = (req,res)=>{
     }
 
 const  deletebooks = (req,res) =>{
-    res.json({})
+    Book.deleteMany()
+    .then((reply)=>{
+        res.json({"reply":"book deleted"})
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+    
 }
 
-const getonebook = (req,res)=>{   
-    the_books = books.find((item)=> item.id ==req.params.id) 
-    if(!the_books) res.status(404).json({"reply" : " book not found"})
-    res.json(the_books)
+const getonebook = (req,res,next)=>{   
+    // the_books = books.find((item)=> item.id ==req.params.id) 
+    // if(!the_books) res.status(404).json({"reply" : " book not found"})
+    // res.json(the_books)
+    Book.findById(req.params.id)
+    .then((book)=>{
+        res.json(book)
+    })
+    .catch(next)
 }
 
 const postonebook  = (req,res)=>{
