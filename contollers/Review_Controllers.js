@@ -13,7 +13,8 @@ const getAllReviews = (req,res,next) =>{
 const createReview = (req,res,next) =>{
     Book.findById(req.params.id)
     .then((book)=>{
-        book = Book.reviews.push(req.push)
+        
+        book.reviews.push(req.body)
        book.save().then(
        (newbook)=>{
         res.json(newbook.reviews).status(201)
