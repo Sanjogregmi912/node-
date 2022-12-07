@@ -62,7 +62,7 @@ const getonebook = (req,res,next)=>{
     .catch(next)
 }
 
-const postonebook  = (req,res)=>{
+const postonebook  = (req,res,next)=>{
     the_books = books.find((item)=> item.id ==req.params.id) 
     if(!the_books) {
        
@@ -83,25 +83,22 @@ const postonebook  = (req,res)=>{
 
     
 }
-const deletebook = (req,res) =>{
-    let newlist = books.filter(function (items){
-        return items.id != req.params.id
-    })
-    res.json(newlist)
-
-
+const deletebook = (req,res,next) =>{
+  Book.findByIdAndDelete(req.params.id).then((reply)=>{
+res.json(reply)
+  })
+  .catch(next)
 
 }
 
-const putonebook = (req,res) =>{
-  let updatedbooks = books.map((item)=>{
-    if(item.id == req.params.id){
-        item.title = req.body.title
-        item.author = req.body.author
-    }
-    return item
-   })
-   res.json(updatedbooks)
+const putonebook = (req,res,next) =>{
+
+    Book.findByIdAndUpdate(req.params.id, 
+        {$set : req.body},{new:true})
+    .then((book)=>{
+        res.json(book)
+    })
+    .catch(next)
 
 }
 
