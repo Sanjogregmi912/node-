@@ -24,7 +24,11 @@ const bookSchema =  mongoose.Schema({
         required  : true,
 
     },
-    reviews : [reviewschema]
-})
+    reviews : [reviewschema],
+    category : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Category'
+    }
+},{timestamps : true})
 
 module.exports = mongoose.model('Book',bookSchema)
