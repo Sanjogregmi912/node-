@@ -48,6 +48,7 @@ const path =  require('path')
 const port = 3000;
 const book_routes = require("./routes/books-router")
 const category_routes =  require("./routes/category-routes")
+const user_routes =  require("./routes/user-routes")
 const books = require('./data/books')
 const mongoose =  require("mongoose")
 
@@ -71,9 +72,10 @@ app.get('^/$|/index(.html)?',(req,res)=>{
     // res.send("hello World")
     res.sendFile(path.join(__dirname,'views','index.html'))
 })
-
+app.use('/user',user_routes)
 app.use('/books',book_routes)
 app.use('/category',category_routes)
+
 
 
 app.listen(port,()=>{
