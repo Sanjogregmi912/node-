@@ -40,7 +40,7 @@
 
 // fileOperation()
 
-
+require('dotenv').config()
 const express = require('express')
 const logger = require('./looger')
 const app = express()
@@ -54,12 +54,13 @@ const mongoose =  require("mongoose")
 
 
 
+
 mongoose.connect('mongodb://127.0.0.1:27017/books')
 .then(()=>{
     console.log("connected to mongodb server")})
 .catch((err)=>next(err))
 
-
+console.log(process.env.SECRET)
 
 app.use((req,res,next)=>{
 
