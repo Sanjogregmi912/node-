@@ -51,6 +51,7 @@ const category_routes =  require("./routes/category-routes")
 const user_routes =  require("./routes/user-routes")
 const books = require('./data/books')
 const mongoose =  require("mongoose")
+const auth =  require("./middleware/auth")
 
 
 
@@ -74,6 +75,7 @@ app.get('^/$|/index(.html)?',(req,res)=>{
     res.sendFile(path.join(__dirname,'views','index.html'))
 })
 app.use('/user',user_routes)
+app.use(auth.verifyUser)
 app.use('/books',book_routes)
 app.use('/category',category_routes)
 
@@ -84,6 +86,7 @@ app.listen(port,()=>{
 })
 
 app.use((err,req,res,next)=>{
+    if(res.statusCode == 200) res.status(500)
 console.log(err)
-res.status(500).json({"err":err.message})
+res.status(500).json({"msg":err.message})
 })

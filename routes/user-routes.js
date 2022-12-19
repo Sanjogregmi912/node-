@@ -8,7 +8,9 @@ router.post("/register", (req,res,next)=>{
     User.findOne({username : req.body.username})
     .then((user)=>{
         if(user == null){
+
             let err =  new Error(`user ${req.body.username} already exists`)
+            res.status(400)
             return next(err)
         }
         else{
@@ -36,6 +38,7 @@ router.post("/register", (req,res,next)=>{
 router.post("/login",(req,res,next)=>{
     User.findOne({username : req.body.username}).then(user=>{
         if(user == null){
+            res.status(404)
             let err =  new error(`User ${req.body.username} doesnot exists`)
             return next(err)
         }
@@ -44,6 +47,7 @@ router.post("/login",(req,res,next)=>{
             bcrypt.compare(req.body.password , user.password, 
                 (err,status)=>{
                     if(err){
+                        res.status(401)
                         return next(err)
                     }
                     if(!status){
