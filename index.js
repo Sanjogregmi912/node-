@@ -56,7 +56,7 @@ const auth =  require("./middleware/auth")
 
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/books')
+mongoose.connect('mongodb://127.0.0.1:27017/newbooks')
 .then(()=>{
     console.log("connected to mongodb server")})
 .catch((err)=>next(err))
@@ -75,7 +75,7 @@ app.get('^/$|/index(.html)?',(req,res)=>{
     res.sendFile(path.join(__dirname,'views','index.html'))
 })
 app.use('/user',user_routes)
-// app.use(auth.verifyUser)
+app.use(auth.verifyUser)
 app.use('/books',book_routes)
 app.use('/category',category_routes)
 

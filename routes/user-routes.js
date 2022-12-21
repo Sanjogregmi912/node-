@@ -7,7 +7,7 @@ const jwt =  require("jsonwebtoken")
 router.post("/register", (req,res,next)=>{
     User.findOne({username : req.body.username})
     .then((user)=>{
-        if(user == null){
+        if(user != null){
 
             let err =  new Error(`user ${req.body.username} already exists`)
             res.status(400)

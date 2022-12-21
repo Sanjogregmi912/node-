@@ -1,3 +1,4 @@
+const { verifyUser } = require('../middleware/auth')
 const Book = require('../models/Book')
 
 
@@ -13,10 +14,14 @@ const getAllReviews = (req,res,next) =>{
 const createReview = (req,res,next) =>{
     Book.findById(req.params.id)
     .then((book)=>{
-        
-        book.reviews.push(req.body)
+        let areview = {
+           "body" : req.body.body,
+           "user"  : verifyUser._id
+        }
+        book.reviews.push(areview)
        book.save().then(
        (newbook)=>{
+        console.log(verifyUser._id)
         res.json(newbook.reviews).status(201)
        }
        )
