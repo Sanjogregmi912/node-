@@ -16,8 +16,9 @@ const createReview = (req,res,next) =>{
     .then((book)=>{
         let areview = {
            "body" : req.body.body,
-           "user"  : verifyUser._id
+           "user"  : req.user.userid
         }
+        console.log(areview)
         book.reviews.push(areview)
        book.save().then(
        (newbook)=>{
@@ -73,8 +74,10 @@ const editreviewbyId = (req,res,next) => {
 }
 
 const deletereviewbyId = (req,res,next) => {
+    
 
      Book.findById(req.params.id).then((book)=>{
+        if(req.body.userid  == book.reviews.user){
      let updates_reviews = book.reviews.filter((item)=>{
         return item.id !=  req.params.reviewid
       
@@ -84,9 +87,10 @@ const deletereviewbyId = (req,res,next) => {
      book.save().then(b => res.json(b.reviews))
     
 
-    })
+}})
     .catch(next)
 }
+
 
 
 

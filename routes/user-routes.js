@@ -21,10 +21,12 @@ router.post("/register", (req,res,next)=>{
                     user = new User()
                     user.username =  req.body.username,
                     user.password =  hash
+                    if(req.body.role) user.role = req.body.role 
                     user.save().then((user)=>{
                         res.status(201).json({"reply" : "User Registered Sucessfully",
                         userId : user._id,
-                        username : user.username
+                        username : user.username,
+                        role : user.role
                     })
                     })
                 }
@@ -57,10 +59,12 @@ router.post("/login",(req,res,next)=>{
                     let data = {
                         
                         userid :  user._id,
-                        username :  user.username
+                        username :  user.username,
+                        role : user.role
 
                     }
-                    jwt.sign(data,process.env.SECRET,
+                    console.log(data)
+                    jwt.sign(data, process.env.SECRET,
                         {"expiresIn": "1d"},(err,token)=>{
                             if(err){
                                 return next(err)
