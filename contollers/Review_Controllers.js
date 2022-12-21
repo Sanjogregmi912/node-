@@ -56,7 +56,7 @@ const getreviewbyId = (req,res,next) => {
 }
 
 const editreviewbyId = (req,res,next) => {
-    Book.findById(req.params.id).then((book)=>{
+    Book.findById(req.params.id).then((book)=>{ 
      let updates_reviews = book.reviews.map((item)=>{
         if(item.id ==  req.params.reviewid){
             item.body = req.body.body
@@ -66,7 +66,7 @@ const editreviewbyId = (req,res,next) => {
      })
      book.reviews = updates_reviews
      book.save().then(b => res.json(b.reviews))
-    
+        
 
     })
     .catch(next)
