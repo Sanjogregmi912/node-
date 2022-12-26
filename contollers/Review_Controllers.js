@@ -58,7 +58,7 @@ const getreviewbyId = (req,res,next) => {
 const editreviewbyId = (req,res,next) => {
     Book.findById(req.params.id).then((book)=>{ 
          the_review = book.reviews.find((item)=> item._id ==req.params.reviewid)
-       
+       console.log(the_review)
             if(the_review.user == req.user.userid){
      let updates_reviews = book.reviews.map((item)=>{
         if(item.id ==  req.params.reviewid){
@@ -77,13 +77,11 @@ const editreviewbyId = (req,res,next) => {
 
 })
     .catch(next)
-    
+
 }
 
 const deletereviewbyId = (req,res,next) => {
-    
-    
-
+    console.log(the_review)
      Book.findById(req.params.id).then((book)=>{
         the_review = book.reviews.find((item)=> item._id ==req.params.reviewid)
         if(the_review.user == req.user.userid){
