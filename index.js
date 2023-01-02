@@ -52,6 +52,7 @@ const user_routes =  require("./routes/user-routes")
 const books = require('./data/books')
 const mongoose =  require("mongoose")
 const auth =  require("./middleware/auth")
+const profile_routes = require("./routes/profile-routes")
 
 
 mongoose.set('strictQuery', false);
@@ -75,10 +76,9 @@ app.get('^/$|/index(.html)?',(req,res)=>{
     res.sendFile(path.join(__dirname,'views','index.html'))
 })
 app.use('/user',user_routes)
-// app.use(auth.verifyUser)
 app.use('/books',book_routes)
 app.use('/category',category_routes)
-
+app.use('/profile',auth.verifyUser,profile_routes)
 
 
 app.listen(port,()=>{
